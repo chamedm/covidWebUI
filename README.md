@@ -12,5 +12,7 @@ React application hosted on the cloud that enables user to interact with al othe
 ## Non-Functional  Requirements
 - User can import contacts from social applications
 
+## Wireframe on Figma
+https://www.figma.com/proto/fOyIUgCZDJRK8AESd6Rva5/X-sem?node-id=35%3A139&scaling=scale-down&page-id=21%3A2
 
 ## Deployment URL
