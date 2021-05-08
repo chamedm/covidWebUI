@@ -24,7 +24,7 @@ function getCorrectRiskstring(risk) {
   }
 }
 
-function ReunionData({ reunion }) {
+function ReunionData({ reunion, number }) {
   return (
     <div className="reunion__entry">
       <img
@@ -33,7 +33,7 @@ function ReunionData({ reunion }) {
         alt="People gathered"
       />
       <div className="reunion__data">
-        <p className="reunion__data__name">Reunion 1</p>
+        <p className="reunion__data__name">Reunion {number}</p>
         <div className="reunion__data__info-table">
           <table>
             <thead>

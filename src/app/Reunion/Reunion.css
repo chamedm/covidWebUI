@@ -1,9 +1,10 @@
 .reunion {
   text-align: center;
   padding: 20px 80px 20px 80px;
-  background-color: #e2e2e2;
-  height: auto;
   padding-top: 100px;
+  background-color: #e2e2e2;
+  height: 100vw;
+
 }
 .reunion__content {
   display: flex;
@@ -93,4 +94,8 @@ td {
   width: 200px;
   margin-top: 0;
   margin-left: 10px;
+}
+
+.MuiCircularProgress-colorPrimary{
+  color: #AF0069;
 }
