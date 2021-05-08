@@ -8,6 +8,8 @@ export const Nav = styled.nav`
   justify-content: center;
   padding: 0.2rem calc((100vw - 1300px) / 2);
   z-index: 2;
+  position: fixed;
+  width: 87vw;
 `;
 
 export const NavMenu = styled.div`
