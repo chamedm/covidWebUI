@@ -194,19 +194,19 @@ function Reunion() {
     </div>
   );
 
-  useEffect(() => {
-    fetch(GET_ALL_REUNIONS_URL, {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((dataJSON) => {
-        setReunionList(dataJSON);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.log(`Error: ${error}`);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch(GET_ALL_REUNIONS_URL, {
+  //     method: "GET",
+  //   })
+  //     .then((response) => response.json())
+  //     .then((dataJSON) => {
+  //       setReunionList(dataJSON);
+  //       setIsLoading(false);
+  //     })
+  //     .catch((error) => {
+  //       console.log(`Error: ${error}`);
+  //     });
+  // }, []);
 
   return (
     <>
@@ -232,7 +232,7 @@ function Reunion() {
         </div>
 
         {/* PROD CODE */}
-        {isLoading ? (
+        {/* {isLoading ? (
           <CircularProgress color="primary" />
         ) : (
           <div className="reunion__content">
@@ -242,16 +242,16 @@ function Reunion() {
               )
             })}
           </div>
-        )}
+        )} */}
         {/* DEV CODE */}
-        {/* {isLoading ? (
+        {isLoading ? (
           <CircularProgress color="primary" />
         ) : (
           <div className="reunion__content">
             <ReunionData reunion={mockReunion} number={1} />
             <ReunionData reunion={mockReunion} number={1} />
           </div>
-        )} */}
+        )}
       </div>
     </>
   );
