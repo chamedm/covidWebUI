@@ -11,16 +11,6 @@ import {
   CALCULATE_INITIAL_RISK,
 } from "./../../assets/constants";
 
-// DEV CODE
-// let mockReunion = {
-//   users: ["hola@icom.com", "klhsadkl@khsd.com"],
-//   duration: 60,
-//   registered_date: "12/12/2021",
-//   masks: true,
-//   open_space: true,
-//   risk: 3,
-// };
-
 function Reunion() {
   const [reunionList, setReunionList] = useState([]);
   const [isLoading, setIsLoading] = useState(false); // TODO: Change to true when using API call
@@ -33,7 +23,7 @@ function Reunion() {
     let value = e.target.value;
 
     if (key === "open_space" || key === "masks") {
-      if (value === ("Yes")) value = true;
+      if (value === "Yes") value = true;
       else value = false;
     }
 
@@ -42,7 +32,7 @@ function Reunion() {
       value = users;
     }
 
-    if(key === "duration"){
+    if (key === "duration") {
       let durationStr = parseInt(value);
       value = durationStr;
     }
@@ -62,16 +52,16 @@ function Reunion() {
   };
 
   async function handleFormSubmit() {
-    // setIsLoading(true);
+    setIsLoading(true);
     let bodyToPost = { ...reunionInfo, risk: 0 };
     let withRisk = await fetch(CALCULATE_INITIAL_RISK, {
       method: "POST",
-      headers:{
-            'Accept': '*/*',
-            'Content-Type': 'application/json;charset=utf-8',
-            'X-IBM-Client-Id': process.env.REACT_APP_INITIAL_RISK_KEY,
-          },
-      redirect: 'follow',
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json;charset=utf-8",
+        "X-IBM-Client-Id": process.env.REACT_APP_INITIAL_RISK_KEY,
+      },
+      redirect: "follow",
       body: JSON.stringify(bodyToPost),
     }).then((response) => {
       if (response.status === 200) {
@@ -81,33 +71,44 @@ function Reunion() {
       }
     });
 
-    let allowedKeys = ['duration', 'masks', 'open_space', 'registered_date', 'users', 'risk'];
+    let allowedKeys = [
+      "duration",
+      "masks",
+      "open_space",
+      "registered_date",
+      "users",
+      "risk",
+    ];
 
     let withRiskArrKeys = Object.keys(withRisk.body.data);
-    let bodyToDB = withRiskArrKeys.filter(key => allowedKeys.includes(key)).reduce((obj, key) => {
-      return {
-        ...obj,
-        [key]: withRisk.body.data[key]
-      };
-    }, {});    
-    
+    let bodyToDB = withRiskArrKeys
+      .filter((key) => allowedKeys.includes(key))
+      .reduce((obj, key) => {
+        return {
+          ...obj,
+          [key]: withRisk.body.data[key],
+        };
+      }, {});
 
     await fetch(POST_NEW_REUNION_URL, {
       method: "POST",
-      headers:{
-        'Content-Type': 'application/json;charset=utf-8'
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
       },
-      body: JSON.stringify(bodyToDB)
-    }).then(response =>{
-      if(response.status === 200){
-        alert("New reunion added");
-        setIsLoading(false);
-        handleFormCancel();
-      }
-      return response.json()})
-    .then(dataJSON => {
-      return dataJSON
-    }).catch(e => console.log("error"+ e))
+      body: JSON.stringify(bodyToDB),
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          alert("New reunion added");
+          setIsLoading(false);
+          handleFormCancel();
+        }
+        return response.json();
+      })
+      .then((dataJSON) => {
+        return dataJSON;
+      })
+      .catch((e) => console.log("error" + e));
   }
 
   const modalBody = (
@@ -124,7 +125,7 @@ function Reunion() {
               <p>Reunion date</p>
               <input
                 type="text"
-                placeholder="DD/MM/YY"
+                placeholder="MM/DD/YY"
                 onChange={handleFormChange}
                 name="registered_date"
               />
@@ -226,27 +227,15 @@ function Reunion() {
           </div>
         </div>
 
-        {/* PROD CODE */}
         {isLoading ? (
           <CircularProgress color="primary" />
         ) : (
           <div className="reunion__content">
             {reunionList.map((reunion, index) => {
-              return(
-                <ReunionData reunion={reunion} number={index} />
-              )
+              return <ReunionData reunion={reunion} number={index} />;
             })}
           </div>
         )}
-        {/* DEV CODE */}
-        {/* {isLoading ? (
-          <CircularProgress color="primary" />
-        ) : (
-          <div className="reunion__content">
-            <ReunionData reunion={mockReunion} number={1} />
-            <ReunionData reunion={mockReunion} number={1} />
-          </div>
-        )} */}
       </div>
     </>
   );

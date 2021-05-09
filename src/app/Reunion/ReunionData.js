@@ -27,6 +27,12 @@ function getCorrectRiskstring(risk) {
 }
 
 function ReunionData({ reunion, number }) {
+  let reunionDate =  new Date(reunion.registered_date);
+  let today = Date.now();
+  let diffTime = Math.abs(today - reunionDate);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+  
+ 
   return (
     <div className="reunion__entry">
       <img
@@ -49,7 +55,7 @@ function ReunionData({ reunion, number }) {
             </thead>
             <tbody>
               <tr>
-                <td>5 Days ago</td>
+                <td>{diffDays} Days</td>
                 <td>{reunion.duration} minutes</td>
                 <td>{reunion.users.length} people</td>
                 <td>{reunion.masks ? "Yes" : "No"}</td>

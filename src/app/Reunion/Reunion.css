@@ -35,6 +35,17 @@
   color: #575757;
 }
 
+.reunion__content--empty{
+  width: 800px;
+  border-radius: 10px;
+  align-self: center;
+  margin-top: 30px;
+  background-color: #f9f9f9;
+  display: flex;
+  border: 1px solid #575757;
+  text-align: center;
+}
+
 .reunion__entry {
   padding: 10px;
   background-color: #f9f9f9;
