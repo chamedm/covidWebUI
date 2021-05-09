@@ -11,14 +11,15 @@ import {
   CALCULATE_INITIAL_RISK,
 } from "./../../assets/constants";
 
-let mockReunion = {
-  users: ["hola@icom.com", "klhsadkl@khsd.com"],
-  duration: 60,
-  registered_date: "12/12/2021",
-  masks: true,
-  open_space: true,
-  risk: 3,
-};
+// DEV CODE
+// let mockReunion = {
+//   users: ["hola@icom.com", "klhsadkl@khsd.com"],
+//   duration: 60,
+//   registered_date: "12/12/2021",
+//   masks: true,
+//   open_space: true,
+//   risk: 3,
+// };
 
 function Reunion() {
   const [reunionList, setReunionList] = useState([]);
@@ -27,13 +28,9 @@ function Reunion() {
 
   const [reunionInfo, setReunionInfo] = useState({});
 
-  console.log(reunionInfo);
   const handleFormChange = (e) => {
     let key = e.target.name;
     let value = e.target.value;
-
-    console.log(key);
-    console.log(value);
 
     if (key === "open_space" || key === "masks") {
       if (value === ("Yes")) value = true;
@@ -53,7 +50,6 @@ function Reunion() {
     let newInfo = {
       [key]: value,
     };
-    console.log(newInfo);
 
     setReunionInfo((prevState) => {
       return { ...prevState, ...newInfo };
@@ -95,7 +91,6 @@ function Reunion() {
       };
     }, {});    
     
-    console.log(bodyToDB);
 
     await fetch(POST_NEW_REUNION_URL, {
       method: "POST",
@@ -194,19 +189,19 @@ function Reunion() {
     </div>
   );
 
-  // useEffect(() => {
-  //   fetch(GET_ALL_REUNIONS_URL, {
-  //     method: "GET",
-  //   })
-  //     .then((response) => response.json())
-  //     .then((dataJSON) => {
-  //       setReunionList(dataJSON);
-  //       setIsLoading(false);
-  //     })
-  //     .catch((error) => {
-  //       console.log(`Error: ${error}`);
-  //     });
-  // }, []);
+  useEffect(() => {
+    fetch(GET_ALL_REUNIONS_URL, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((dataJSON) => {
+        setReunionList(dataJSON);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(`Error: ${error}`);
+      });
+  }, []);
 
   return (
     <>
@@ -232,7 +227,7 @@ function Reunion() {
         </div>
 
         {/* PROD CODE */}
-        {/* {isLoading ? (
+        {isLoading ? (
           <CircularProgress color="primary" />
         ) : (
           <div className="reunion__content">
@@ -242,16 +237,16 @@ function Reunion() {
               )
             })}
           </div>
-        )} */}
+        )}
         {/* DEV CODE */}
-        {isLoading ? (
+        {/* {isLoading ? (
           <CircularProgress color="primary" />
         ) : (
           <div className="reunion__content">
             <ReunionData reunion={mockReunion} number={1} />
             <ReunionData reunion={mockReunion} number={1} />
           </div>
-        )}
+        )} */}
       </div>
     </>
   );

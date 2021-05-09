@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Questions.css";
-import { GET_NEWS_URL } from "../../assets/constants";
+import { GET_QUESTIONS_URL } from "../../assets/constants";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import SingleQuestion from "./SingleQuestion";
 
@@ -9,7 +9,7 @@ function Questions() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch(GET_NEWS_URL, {
+    fetch(GET_QUESTIONS_URL, {
       method: "GET",
     })
       .then((response) => response.json())
