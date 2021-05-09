@@ -2,25 +2,170 @@ import React, { useEffect, useState } from "react";
 import "./Reunion.css";
 import ReunionData from "./ReunionData";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Modal from "@material-ui/core/Modal";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import {
+  GET_ALL_REUNIONS_URL,
+  POST_NEW_REUNION_URL
+} from './../../assets/constants';
 
-const ALL_REUNIONS_URL =
-  "http://node-express-env.eba-yhhaeabq.us-east-1.elasticbeanstalk.com/api/reunions";
+let mockReunion = {
+  users: ["hola@icom.com", "klhsadkl@khsd.com"],
+  duration: 60,
+  registered_date: "12/12/2021",
+  masks: true,
+  open_space: true,
+  risk: 3,
+};
 
 function Reunion() {
   const [reunionList, setReunionList] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false); // TODO: Change to true when using API call 
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  let mockReunion = {
-    users: ["hola@icom.com", "klhsadkl@khsd.com"],
-    duration: 60,
-    registered_date: "12/12/2021",
-    masks: true,
-    open_space: true,
-    risk: 3,
+  const [reunionInfo, setReunionInfo] = useState({});
+  
+
+  console.log(reunionInfo);
+  const handleFormChange = (e) => {
+    let key = e.target.name;
+    let value = e.target.value;
+
+    console.log(key);
+    console.log(value);
+
+    if (key === "open_space" || key === "masks") {
+      if (value === "Yes") value = true;
+      else value = false;
+    }
+
+    if (key === "users") {
+      let users = value.split(",");
+      value = users;
+    }
+
+    let newInfo = {
+      [key]: value,
+    };
+    console.log(newInfo);
+
+    setReunionInfo((prevState) => {
+      return { ...prevState, ...newInfo };
+    });
   };
 
+  const handleFormCancel = () => {
+    setIsModalOpen(false);
+    setReunionInfo({});
+  };
+
+  function handleFormSubmit() {
+    setIsModalOpen(false);
+    setIsLoading(true);
+    let bodyToPost = {...reunionInfo, risk:0};
+
+    fetch(POST_NEW_REUNION_URL, {
+      method: "POST",
+      headers:{
+        'Content-Type': 'application/json;charset=utf-8'
+      }, 
+      body: JSON.stringify(bodyToPost)
+    }).then(response =>{ 
+      if(response.status === 200){
+        alert("New reunion added");
+        setIsLoading(false);
+        handleFormCancel();
+      }
+      return response.json()})
+    .then(dataJSON => {
+      return dataJSON
+    }).catch(e => console.log("error"+ e))
+
+  
+
+  };
+
+
+  const modalBody = (
+    <div className="modal">
+      <h1 className="modal__title">New reunion</h1>
+      <div className="modal__content">
+        <div className="modal__first-column">
+          <div className="modal__row">
+            <div>
+              <p>Reunion title</p>
+              <input type="text" />
+            </div>
+            <div>
+              <p>Reunion date</p>
+              <input
+                type="text"
+                placeholder="DD/MM/YY"
+                onChange={handleFormChange}
+                name="registered_date"
+              />
+            </div>
+          </div>
+
+          <div className="modal__row">
+            <div>
+              <p>Time lasted</p>
+              <input
+                type="text"
+                placeholder="In minutes"
+                name="duration"
+                onChange={handleFormChange}
+              />
+            </div>
+
+            <div>
+              <p>People gathered</p>
+              <input type="text" />
+            </div>
+          </div>
+
+          <div className="modal__row">
+            <div>
+              <p>OpenSpace</p>
+              <input
+                name="open_space"
+                onChange={handleFormChange}
+                placeholder="Yes/No"
+                onChange={handleFormChange}
+              />
+            </div>
+
+            <div>
+              <p>Mask usage</p>
+              <input
+                name="masks"
+                placeholder="Yes/No"
+                onChange={handleFormChange}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="modal__second-column">
+          <p>Contact list</p>
+          <input
+            placeholder="Comma separated emails"
+            name="users"
+            onChange={handleFormChange}
+          />
+        </div>
+      </div>
+      <div className="modal__actions">
+        <button onClick={handleFormSubmit} className="modal__actions--add">Add</button>
+        <button onClick={handleFormCancel} className="modal__actions--cancel">
+          Cancel
+        </button>
+      </div>
+    </div>
+  );
+
   useEffect(() => {
-    fetch(ALL_REUNIONS_URL, {
+    fetch(GET_ALL_REUNIONS_URL, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -29,36 +174,57 @@ function Reunion() {
         setIsLoading(false);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(`Error: ${error}`);
       });
   }, []);
 
-  console.log(reunionList);
   return (
-    <div id="dashboard" className="reunion">
-      <div className="reunion__title">
-        <h1>Your reunions</h1>
-      </div>
-      {/* PROD CODE */}
-      {/* {isLoading ? (
-        <CircularProgress color="primary" />
-      ) : (
-        <div className="reunion__content">
-          {reunionList.map((reunion, index) => {
-            return(
-              <ReunionData reunion={reunion} number={index} />
-            )
-          })}
+    <>
+      <Modal
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        {modalBody}
+      </Modal>
+      <div id="dashboard" className="reunion">
+        <div className="reunion__header">
+          <h1 className="reunion__title">Your reunions</h1>
+          <div className="reunion__actions">
+            <button
+              className="reunion__actions--button"
+              onClick={() => setIsModalOpen(true)}
+            >
+              Add
+            </button>
+          </div>
         </div>
-      )} */}
-      {/* DEV CODE */}
-      <div className="reunion__content">
-      <ReunionData reunion={mockReunion} number={1} />
-      <ReunionData reunion={mockReunion} number={1} />
 
+        {/* PROD CODE */}
+        {isLoading ? (
+          <CircularProgress color="primary" />
+        ) : (
+          <div className="reunion__content">
+            {reunionList.map((reunion, index) => {
+              return(
+                <ReunionData reunion={reunion} number={index} />
+              )
+            })}
+          </div>
+        )}
+        {/* DEV CODE */}
 
+        {/* {isLoading ? (
+          <CircularProgress color="primary" />
+        ) :
+        <div className="reunion__content">
+          <ReunionData reunion={mockReunion} number={1} />
+          <ReunionData reunion={mockReunion} number={1} />
+        </div>
+        }  */}
       </div>
-    </div>
+    </>
   );
 }
 export default Reunion;

@@ -1,5 +1,7 @@
 import React from "react";
 import reunionImage from "../../assets/gathering.png";
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
 
 function getCorrectRiskstring(risk) {
   const noRiskDescr =
@@ -66,6 +68,9 @@ function ReunionData({ reunion, number }) {
           </p>
         </div>
       </div>
+      <IconButton>
+        <EditIcon/>
+      </IconButton>
     </div>
   );
 }
