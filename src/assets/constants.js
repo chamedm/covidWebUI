@@ -6,10 +6,13 @@ const CALCULATE_INITIAL_RISK = "https://03e52a0d.us-south.apigw.appdomain.cloud/
 
 const GET_NEWS_URL = "https://nn7mj0fdmb.execute-api.us-east-1.amazonaws.com/dev/questions/";
 
+const GET_TRACKER_URL = "http://covidtracker-quick-lynx-yk.mybluemix.net/byContinent";
+
 export {
   GET_ALL_REUNIONS_URL,
   POST_NEW_REUNION_URL,
   CALCULATE_INITIAL_RISK,
   GET_NEWS_URL,
+  GET_TRACKER_URL,
 }
 
