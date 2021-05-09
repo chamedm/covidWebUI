@@ -1,0 +1,13 @@
+.news {
+  text-align: center;
+  padding: 20px 80px 20px 80px;
+  padding-top: 100px;
+  background-color: #e2e2e2;
+  height: 100vw;
+}
+
+.news__title{
+  font-size: 30px;
+  margin-top: 0;
+  color: #575757;
+}
