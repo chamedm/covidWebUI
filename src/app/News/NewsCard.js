@@ -7,6 +7,7 @@ function NewsCard({ newItem }) {
     <div className="news__container">
       <img
         src={newItem.urlToImage ? newItem.urlToImage : defaultNewsImage}
+        alt="imagen sobre noticia"
       ></img>
       <p className="news--title">{newItem.title}</p>
       <div className="news__info">
@@ -19,6 +20,7 @@ function NewsCard({ newItem }) {
       <a
         href={newItem.url}
         target="_blank"
+        rel="noreferrer"
       >
         Click to continue reading
       </a>

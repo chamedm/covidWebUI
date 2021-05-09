@@ -3,8 +3,6 @@ import "./Reunion.css";
 import ReunionData from "./ReunionData";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Modal from "@material-ui/core/Modal";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
 import {
   GET_ALL_REUNIONS_URL,
   POST_NEW_REUNION_URL,
@@ -156,7 +154,6 @@ function Reunion() {
                 name="open_space"
                 onChange={handleFormChange}
                 placeholder="Yes/No"
-                onChange={handleFormChange}
               />
             </div>
 
