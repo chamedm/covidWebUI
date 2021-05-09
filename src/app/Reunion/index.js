@@ -7,8 +7,9 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import {
   GET_ALL_REUNIONS_URL,
-  POST_NEW_REUNION_URL
-} from './../../assets/constants';
+  POST_NEW_REUNION_URL,
+  CALCULATE_INITIAL_RISK,
+} from "./../../assets/constants";
 
 let mockReunion = {
   users: ["hola@icom.com", "klhsadkl@khsd.com"],
@@ -21,11 +22,10 @@ let mockReunion = {
 
 function Reunion() {
   const [reunionList, setReunionList] = useState([]);
-  const [isLoading, setIsLoading] = useState(false); // TODO: Change to true when using API call 
+  const [isLoading, setIsLoading] = useState(false); // TODO: Change to true when using API call
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [reunionInfo, setReunionInfo] = useState({});
-  
 
   console.log(reunionInfo);
   const handleFormChange = (e) => {
@@ -36,13 +36,18 @@ function Reunion() {
     console.log(value);
 
     if (key === "open_space" || key === "masks") {
-      if (value === "Yes") value = true;
+      if (value === ("Yes")) value = true;
       else value = false;
     }
 
     if (key === "users") {
       let users = value.split(",");
       value = users;
+    }
+
+    if(key === "duration"){
+      let durationStr = parseInt(value);
+      value = durationStr;
     }
 
     let newInfo = {
@@ -60,18 +65,45 @@ function Reunion() {
     setReunionInfo({});
   };
 
-  function handleFormSubmit() {
-    setIsModalOpen(false);
-    setIsLoading(true);
-    let bodyToPost = {...reunionInfo, risk:0};
+  async function handleFormSubmit() {
+    // setIsLoading(true);
+    let bodyToPost = { ...reunionInfo, risk: 0 };
+    let withRisk = await fetch(CALCULATE_INITIAL_RISK, {
+      method: "POST",
+      headers:{
+            'Accept': '*/*',
+            'Content-Type': 'application/json;charset=utf-8',
+            'X-IBM-Client-Id': process.env.REACT_APP_INITIAL_RISK_KEY,
+          },
+      redirect: 'follow',
+      body: JSON.stringify(bodyToPost),
+    }).then((response) => {
+      if (response.status === 200) {
+        return response.json();
+      } else {
+        throw response.status;
+      }
+    });
 
-    fetch(POST_NEW_REUNION_URL, {
+    let allowedKeys = ['duration', 'masks', 'open_space', 'registered_date', 'users', 'risk'];
+
+    let withRiskArrKeys = Object.keys(withRisk.body.data);
+    let bodyToDB = withRiskArrKeys.filter(key => allowedKeys.includes(key)).reduce((obj, key) => {
+      return {
+        ...obj,
+        [key]: withRisk.body.data[key]
+      };
+    }, {});    
+    
+    console.log(bodyToDB);
+
+    await fetch(POST_NEW_REUNION_URL, {
       method: "POST",
       headers:{
         'Content-Type': 'application/json;charset=utf-8'
-      }, 
-      body: JSON.stringify(bodyToPost)
-    }).then(response =>{ 
+      },
+      body: JSON.stringify(bodyToDB)
+    }).then(response =>{
       if(response.status === 200){
         alert("New reunion added");
         setIsLoading(false);
@@ -81,11 +113,7 @@ function Reunion() {
     .then(dataJSON => {
       return dataJSON
     }).catch(e => console.log("error"+ e))
-
-  
-
-  };
-
+  }
 
   const modalBody = (
     <div className="modal">
@@ -112,7 +140,7 @@ function Reunion() {
             <div>
               <p>Time lasted</p>
               <input
-                type="text"
+                type="number"
                 placeholder="In minutes"
                 name="duration"
                 onChange={handleFormChange}
@@ -121,7 +149,7 @@ function Reunion() {
 
             <div>
               <p>People gathered</p>
-              <input type="text" />
+              <input type="number" />
             </div>
           </div>
 
@@ -156,7 +184,9 @@ function Reunion() {
         </div>
       </div>
       <div className="modal__actions">
-        <button onClick={handleFormSubmit} className="modal__actions--add">Add</button>
+        <button onClick={handleFormSubmit} className="modal__actions--add">
+          Add
+        </button>
         <button onClick={handleFormCancel} className="modal__actions--cancel">
           Cancel
         </button>
@@ -214,15 +244,14 @@ function Reunion() {
           </div>
         )}
         {/* DEV CODE */}
-
         {/* {isLoading ? (
           <CircularProgress color="primary" />
-        ) :
-        <div className="reunion__content">
-          <ReunionData reunion={mockReunion} number={1} />
-          <ReunionData reunion={mockReunion} number={1} />
-        </div>
-        }  */}
+        ) : (
+          <div className="reunion__content">
+            <ReunionData reunion={mockReunion} number={1} />
+            <ReunionData reunion={mockReunion} number={1} />
+          </div>
+        )} */}
       </div>
     </>
   );
