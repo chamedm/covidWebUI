@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testing-kube-deploy
+  labels:
+    name: testing-kube-deploy
+    app: testing-kube-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: testing-kube-pod
+      app: testing-kube-app
+  template:
+    metadata:
+      name: testing-kube-pod
+      labels:
+        name: testing-kube-pod
+        app: testing-kube-app
+    spec:
+      containers:
+        - name: testing-kube-container
+          image: "856845581549.dkr.ecr.us-east-1.amazonaws.com/covid_platform:latest"
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: "1"
+            requests:
+              memory: 128Mi
+              cpu: "0.2"
