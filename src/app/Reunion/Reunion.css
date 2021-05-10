@@ -1,0 +1,202 @@
+.reunion {
+  text-align: center;
+  padding: 20px 80px 20px 80px;
+  padding-top: 100px;
+  background-color: #e2e2e2;
+  height: 100vw;
+}
+
+.reunion__title{
+  font-size: 30px;
+  margin-top: 0;
+  color: #575757;
+}
+
+.reunion__actions{
+  display: inline;
+}
+
+
+.reunion__actions--button{
+  width: 100px; 
+  height: 30px;
+  background-color:#F6C065 ;
+  border-radius: 5px;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.reunion__content {
+  display: flex;
+  flex-direction: column;
+  color: #575757;
+}
+
+.reunion__content--empty{
+  width: 800px;
+  border-radius: 10px;
+  align-self: center;
+  margin-top: 30px;
+  background-color: #f9f9f9;
+  display: flex;
+  border: 1px solid #575757;
+  text-align: center;
+}
+
+.reunion__entry {
+  padding: 10px;
+  background-color: #f9f9f9;
+  display: flex;
+  border: 1px solid #575757;
+  margin-top: 50px;
+  border-radius: 10px;
+}
+.reunion__image {
+  margin: 10px;
+  background-image: url(../../assets/gathering.png);
+  max-width: 100px;
+}
+
+th,
+td {
+  padding: 0 30px 0 30px;
+}
+
+.reunion__data {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+}
+
+.reunion__data__name {
+  text-align: left;
+  font-size: 25px;
+  margin: 10px 0 10px 20px;
+}
+
+.reunion__risk {
+  width: 300px;
+  justify-content: end;
+  margin-left: 120px;
+}
+.reunion__risk > p {
+  margin-bottom: 10px;
+  display: flex;
+  margin-left: 50px;
+  font-size: 20px;
+}
+
+.risk__details {
+  display: flex;
+}
+
+.risk__details--color--1 {
+  width: 40px;
+  height: 30px;
+  border-radius: 5px;
+  background-color: #0d982c;
+}
+
+.risk__details--color--2 {
+  border-radius: 5px;
+  width: 40px;
+  height: 30px;
+  background-color: #f3de20;
+}
+
+.risk__details--color--3 {
+  width: 40px;
+  height: 30px;
+  border-radius: 5px;
+  background-color: #ef7923;
+}
+
+.risk__details--color--4 {
+  width: 40px;
+  height: 30px;
+  border-radius: 5px;
+
+  background-color: #ef2323;
+}
+
+.risk__details--description {
+  font-size: 12px;
+  word-wrap: break-word;
+  width: 200px;
+  margin-top: 0;
+  margin-left: 10px;
+}
+
+.MuiCircularProgress-colorPrimary{
+  color: #AF0069;
+}
+
+.modal{
+  background-color: white;
+  width: 800px;
+  height: 550px;
+  position: absolute;
+  top: 10%;
+  left: 25%;
+  border-radius: 10px;
+  text-align: center;
+  color: #575757;
+}
+
+.modal__content{
+  display: flex;
+  justify-content: space-between;
+}
+.modal__title{
+  font-size: 30px;
+}
+
+.modal__first-column{
+  display: flex;
+  flex-direction: column;
+  margin-left: 50px;
+}
+.modal__row{
+  display: flex;
+  margin-top: 30px;
+} 
+
+.modal__row > div:first-child{
+  margin-right: 20px;
+}
+
+
+.modal__second-column{
+  display: flex;
+  width: 250px;
+  flex-direction: column;
+  margin-right: 50px;
+  margin-top: 30px;
+}
+
+.modal__actions{
+  margin-top: 30px;
+} 
+
+.modal__actions>button{
+  margin-left: 10px;
+  margin-right: 10px;
+  width: 90px;
+  height: 30px;
+  border-radius: 5px;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.modal__actions--add{
+  background-color: #F6C065;
+}
+
+.modal__actions--cancel{
+  background-color: #C4C4C4;
+
+}
