@@ -16,3 +16,4 @@ React application hosted on the cloud that enables user to interact with al othe
 https://www.figma.com/proto/fOyIUgCZDJRK8AESd6Rva5/X-sem?node-id=35%3A139&scaling=scale-down&page-id=21%3A2
 
 ## Deployment URL
+http://ec2-34-201-50-193.compute-1.amazonaws.com:30072/dashboard
